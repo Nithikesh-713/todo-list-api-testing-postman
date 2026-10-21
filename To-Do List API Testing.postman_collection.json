@@ -1,0 +1,412 @@
+{
+  "info": {
+    "_postman_id": "03896a3f-e426-46bd-be99-1b060d1f389b",
+    "name": "To-Do List API Testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58949904",
+    "_collection_link": "https://go.postman.co/collection/58949904-03896a3f-e426-46bd-be99-1b060d1f389b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "TC01 - Verify GET Request Retrieves a To-Do by ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status code is 200\",function(){\r\n    pm.response.to.have.status(200);\r\n});\r\npm.test(\"Response contains a task title\",function(){\r\n    const data = pm.response.json();\r\n    pm.expect(data.title).to.be.a(\"string\");\r\n});\r\npm.test(\"Task Id is 1\",function(){\r\n    const data = pm.response.json();\r\n    pm.expect(data.id).to.eql(1);\r\n});\r\npm.test(\"Completed field is a boolean\",function(){\r\n    const data = pm.response.json();\r\n    pm.expect(data.completed).to.be.a(\"boolean\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"userID\" : 1,\r\n    \"id\" : 1,\r\n    \"tile\" : \"delectus aut autem\",\r\n    \"completed\" : false\r\n\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/todos/1",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "todos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC02 - Verify POST Request Creates a To-Do Successfully",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status code is 201K\",function(){\r\n    pm.response.to.have.status(201);\r\n});\r\npm.test(\"Response contains task tile\",function(){\r\n    const data = pm.response.json();\r\n    pm.expect(data.title).to.eql(\"Complete TC02 API Testing\");\r\n});\r\npm.test(\"User Id is correct\",function(){\r\n    const data = pm.response.json();\r\n    pm.expect(data.userId).to.eql(1);\r\n});\r\npm.test(\"Completed is an boolean\",function(){\r\n    const data = pm.response.json();\r\n    pm.expect(data.completed).to.be.a(\"boolean\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"userId\" : 1,\r\n    \"title\" : \"Complete TC02 API Testing\",\r\n    \"completed\" : false\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/todos",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC03 — Verify POST Request Behavior When Title Is Missing",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Missing title should be rejected\",function(){\r\n    pm.expect(pm.response.code).to.be.oneOf([400,422]);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"userId\" : 1,\r\n    \"completed\" : false\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/todos",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC04 — Verify POST Request with Invalid User ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Invalid user ID should be rejected\",function(){\r\n    pm.expect(pm.response.code).to.be.oneOf([400,404,422]);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"userId\" : -1,\r\n    \"title\" : \"TC04 Invalid User ID Test\",\r\n    \"completed\" : false\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/todos",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC05 — Missing User ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Missing user ID should be rejected\",function(){\r\n    pm.expect(pm.response.code).to.be.oneOf([400,422]);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\" : \"TC05 Missing user ID Test\",\r\n    \"completed\" : false\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/todos",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC06 — Invalid completed field type",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Invalid completed type should be rejected\",function(){\r\n    pm.expect(pm.response.code).to.be.oneOf([400,422]);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"userId\" : 1,\r\n    \"title\" : \"TC06 Invalid Completed Field Type\",\r\n    \"completd\" : \"false\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/todos",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC07 — Verify Response Contains Required Fields",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const data = pm.response.json();\r\npm.test(\"Response contains userId\",function(){\r\n    pm.expect(data).to.have.property(\"userId\");\r\n});\r\npm.test(\"Response contains id\",function(){\r\n    pm.expect(data).to.have.property(\"id\");\r\n});\r\npm.test(\"Response contains title\",function(){\r\n    pm.expect(data).to.have.property(\"title\");\r\n});\r\npm.test(\"Response contains completed\",function(){\r\n    pm.expect(data).to.have.property(\"completed\");\r\n});\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"userId\": 1,\r\n  \"title\": \"TC07 Required Fields Test\",\r\n  \"completed\": false\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/todos",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC08 — Verify Response Data Types",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const data = pm.response.json();\r\npm.test(\"userId is a number\",function(){\r\n    pm.expect(data.userId).to.be.a(\"number\");\r\n});\r\npm.test(\"id is a number\",function(){\r\n    pm.expect(data.id).to.be.a(\"number\");\r\n});\r\npm.test(\"title is a string\",function(){\r\n    pm.expect(data.title).to.be.a(\"string\");\r\n});\r\npm.test(\"completed is a boolean\",function(){\r\n    pm.expect(data.completed).to.be.a(\"boolean\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"userId\" : 1,\r\n    \"title\" : \"TC08 Response Data Types Test\",\r\n    \"completed\" : false\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/todos",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC09 — Verify Response Status Code",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201 Created\",function(){\r\n    pm.response.to.have.status(201);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"userId\" : 1,\r\n    \"title\" : \"TC09 Status Code Test\",\r\n    \"completed\" : false\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/todos",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC10 — Verify Response Time",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Response time is below 3000 ms\",function(){\r\n    pm.expect(pm.response.responseTime).to.be.below(3000);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"userId\" : 1,\r\n    \"title\" : \"TC10 Response Time Test\",\r\n    \"completed\" : false\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/todos",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
