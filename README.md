@@ -7,37 +7,49 @@ This project demonstrates REST API testing using Postman and the JSONPlaceholder
 
 **Tool:** Postman  
 **API Type:** REST API  
-**Testing Type:** Functional, negative, response validation, and basic performance testing
+**Testing Types:** Functional testing, negative testing, response validation, and basic performance testing
 
-## Test Cases
+## Test Cases and Results
 
 | Test Case ID | Test Scenario | Result |
 |---|---|---|
-| TC01 | Retrieve a To-Do by ID using GET | Previously tested |
-| TC02 | Create a To-Do using POST | Passed |
+| TC01 | Retrieve a To-Do by ID using GET | Passed — 4 assertions |
+| TC02 | Create a To-Do using POST | Passed — 4 assertions |
 | TC03 | POST request with missing title | Failed — API returned 201 |
 | TC04 | POST request with invalid user ID | Failed — API returned 201 |
 | TC05 | POST request with missing user ID | Failed — API returned 201 |
 | TC06 | POST request with invalid `completed` field type | Failed — API returned 201 |
-| TC07 | Verify required response fields | Passed |
-| TC08 | Verify response data types | Passed |
-| TC09 | Verify response status code | Passed |
-| TC10 | Verify response time is below 3000 ms | Passed |
-
-*Results are based on the observed responses during testing. TC01's final result should be confirmed before publishing.*
+| TC07 | Verify required response fields | Passed — 4 assertions |
+| TC08 | Verify response data types | Passed — 4 assertions |
+| TC09 | Verify response status code | Passed — 1 assertion |
+| TC10 | Verify response time is below 3000 ms | Passed — 1 assertion |
 
 ## Key Findings
+- The GET request successfully retrieved To-Do ID 1 and returned `200 OK`.
 - Valid POST requests returned `201 Created`.
-- The response was checked for required fields and expected data types.
+- The response was validated for required fields and expected data types.
 - The API accepted several invalid payloads and returned `201 Created`.
 - The response-time assertion passed for the observed request.
-- JSONPlaceholder is a simulated practice API; POST requests do not permanently create records on a real backend.
 
-## Sample Request
+## Sample GET Request
+
+**Method:** GET
+
+**Endpoint:** `https://jsonplaceholder.typicode.com/todos/1`
+
+### Validations
+- Status code is `200 OK`.
+- Response contains a task title.
+- Task ID equals `1`.
+- The `completed` field is a Boolean.
+
+## Sample POST Request
 
 **Method:** POST
 
 **Endpoint:** `https://jsonplaceholder.typicode.com/todos`
+
+### Request Body
 
 ```json
 {
@@ -49,7 +61,8 @@ This project demonstrates REST API testing using Postman and the JSONPlaceholder
 
 ## Skills Demonstrated
 - REST API testing
-- Postman requests and test scripts
+- Postman request configuration
+- JavaScript test scripts in Postman
 - HTTP status-code validation
 - JSON response validation
 - Positive and negative testing
@@ -57,5 +70,13 @@ This project demonstrates REST API testing using Postman and the JSONPlaceholder
 - Basic response-time testing
 - Test-case documentation
 
+## Tools and Technologies
+- Postman
+- JSONPlaceholder REST API
+- JavaScript
+- JSON
+- GitHub
+
 ## Disclaimer
-This is a learning project using JSONPlaceholder, a simulated REST API. Results reflect the behavior observed during testing and should not be interpreted as evidence of defects in a production API.
+This is a learning project using JSONPlaceholder, a simulated REST API. POST requests simulate creation and do not permanently create records on a real backend. The failed validation assertions reflect the observed behavior of this practice API and do not, by themselves, establish defects in a production system.
+
